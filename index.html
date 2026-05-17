@@ -412,11 +412,7 @@
                 console.log('⚠️ Ошибка отправки:', e); 
             }
             
-            let flowRecommendation = '';
-            if (score >= 90) flowRecommendation = '🥇 Рекомендуем 1 поток (08.06–19.06) — максимальная насыщенность!';
-            else if (score >= 84) flowRecommendation = '🥈 Рекомендуем 2 поток (29.06–10.07) — отличный баланс!';
-            else if (score >= 80) flowRecommendation = '🥉 Рекомендуем 3 поток (20.07–31.07) — спокойный старт!';
-            else flowRecommendation = '🏅 Рекомендуем 4 поток (10.08–21.08) — завершающий аккорд лета!';
+                      const flowRecommendation = '🥇 Рекомендуем 1 поток (08.06–19.06) — присоединяйтесь к первой смене!';
             
             document.getElementById('questionContainer').innerHTML = `
                 <div class="result-card">
