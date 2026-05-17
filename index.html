@@ -83,6 +83,11 @@
         .consent-checkbox a:hover { text-decoration: underline; }
         .consent-error { color: #f44336; font-size: 0.8em; margin-top: 8px; margin-left: 30px; display: none; }
         .consent-error.show { display: block; }
+        .phone-request-block { background: #fff3e0; border-radius: 15px; padding: 15px; margin: 15px 0; text-align: center; border: 2px solid #ff9800; }
+        .phone-request-block p { font-size: 0.9em; color: #e65100; margin-bottom: 10px; }
+        .phone-request-btn { background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-size: 0.95em; font-weight: 600; cursor: pointer; }
+        .phone-granted { color: #4caf50; font-weight: 500; }
+        .phone-granted i { margin-right: 5px; }
         .info-block { background: #e3f2fd; border-radius: 15px; padding: 15px; margin: 15px 0; text-align: center; border: 2px dashed #0d47a1; }
         .info-block h3 { color: #0d47a1; margin-bottom: 10px; font-size: 1em; }
         .info-block p { font-size: 0.85em; color: #555; line-height: 1.6; margin: 5px 0; }
@@ -140,11 +145,10 @@
     <script>
         vkBridge.send('VKWebAppInit');
         
-        // Vercel сам обрабатывает /api/save-child-quiz
-        const SERVER_URL = '';
-        
         let currentStep = 0;
         let consentGiven = false;
+        let phoneAccessGranted = false;
+        let phoneNumber = '';
         let answers = {
             gender: null, age: null, techLove: null,
             teamwork: null, competitive: null, activity: null
@@ -222,6 +226,25 @@
             return answers[q.id] !== null && answers[q.id] !== undefined;
         }
         
+        // Функция запроса номера телефона
+        async function requestPhoneNumber() {
+            try {
+                const p = await vkBridge.send('VKWebAppGetPhoneNumber');
+                if (p && p.phone_number) {
+                    phoneNumber = p.phone_number;
+                    phoneAccessGranted = true;
+                    // Обновляем кнопку на последнем шаге
+                    if (currentStep === questions.length - 1) {
+                        renderQuestion();
+                    }
+                    showMessage('✅ Номер телефона получен!');
+                }
+            } catch(e) {
+                console.log('Пользователь не дал доступ к номеру');
+                showMessage('❌ Необходимо дать доступ к номеру телефона');
+            }
+        }
+        
         function renderQuestion() {
             const container = document.getElementById('questionContainer');
             const q = questions[currentStep];
@@ -252,7 +275,19 @@
                 html += `</div>`;
             }
             
+            // На последнем шаге: блок с телефоном и согласием
             if (currentStep === questions.length - 1) {
+                // Блок запроса телефона
+                html += `<div class="phone-request-block">`;
+                if (phoneAccessGranted) {
+                    html += `<p class="phone-granted"><i class="fas fa-check-circle"></i> Номер получен: ${phoneNumber}</p>`;
+                } else {
+                    html += `<p>📱 Для отправки заявки нужен ваш номер телефона</p>`;
+                    html += `<button class="phone-request-btn" onclick="requestPhoneNumber()"><i class="fas fa-phone-alt"></i> Предоставить номер</button>`;
+                }
+                html += `</div>`;
+                
+                // Блок согласия
                 html += `
                     <div class="consent-block">
                         <label class="consent-checkbox">
@@ -271,8 +306,17 @@
             html += `<div class="nav-buttons">`;
             if (currentStep > 0) html += `<button class="nav-btn prev" onclick="prevQuestion()"><i class="fas fa-arrow-left"></i> Назад</button>`;
             else html += `<div style="flex:1"></div>`;
-            if (currentStep < questions.length - 1) html += `<button class="nav-btn next" onclick="nextQuestion()" ${!canProceed() ? 'disabled' : ''}>Далее <i class="fas fa-arrow-right"></i></button>`;
-            else html += `<button class="nav-btn next" id="submitBtn" onclick="showResult()" ${!canProceed() ? 'disabled' : ''}>Узнать результат <i class="fas fa-star"></i></button>`;
+            
+            if (currentStep < questions.length - 1) {
+                html += `<button class="nav-btn next" onclick="nextQuestion()" ${!canProceed() ? 'disabled' : ''}>Далее <i class="fas fa-arrow-right"></i></button>`;
+            } else {
+                // Кнопка "Узнать результат" активна только если есть номер и согласие
+                const canSubmit = canProceed() && phoneAccessGranted && consentGiven;
+                html += `<button class="nav-btn next" id="submitBtn" onclick="showResult()" ${!canSubmit ? 'disabled' : ''}>Узнать результат <i class="fas fa-star"></i></button>`;
+                if (!phoneAccessGranted || !consentGiven) {
+                    html += `<p style="text-align:center; color:#888; font-size:0.8em; margin-top:8px;">Предоставьте номер и дайте согласие</p>`;
+                }
+            }
             html += `</div></div>`;
             container.innerHTML = html;
             updateProgress();
@@ -282,7 +326,14 @@
             consentGiven = checked;
             const errorDiv = document.getElementById('consentError');
             if (errorDiv) errorDiv.classList.remove('show');
+            // Обновляем кнопку
+            const submitBtn = document.getElementById('submitBtn');
+            if (submitBtn) {
+                submitBtn.disabled = !(canProceed() && phoneAccessGranted && consentGiven);
+            }
         };
+        
+        window.requestPhoneNumber = requestPhoneNumber;
         
         window.showPolicy = function() {
             alert('Политика конфиденциальности\n\n' +
@@ -304,6 +355,11 @@
         window.showResult = async function() {
             if (!canProceed()) { showMessage('Ответьте на все вопросы'); return; }
             
+            if (!phoneAccessGranted) {
+                showMessage('Необходимо предоставить номер телефона');
+                return;
+            }
+            
             if (!consentGiven) {
                 const errorDiv = document.getElementById('consentError');
                 if (errorDiv) errorDiv.classList.add('show');
@@ -312,12 +368,11 @@
             }
             
             const score = calculateTotalScore();
-            const btn = document.querySelector('.nav-btn.next');
+            const btn = document.getElementById('submitBtn');
             const orig = btn.innerHTML;
             btn.innerHTML = '<span class="loading"></span> Отправка...';
             btn.disabled = true;
             
-            let phone = 'Не указан';
             let userName = 'Гость';
             let userId = '';
             
@@ -325,10 +380,6 @@
                 const user = await vkBridge.send('VKWebAppGetUserInfo');
                 userName = `${user.first_name} ${user.last_name}`;
                 userId = user.id;
-                try { 
-                    const p = await vkBridge.send('VKWebAppGetPhoneNumber'); 
-                    if (p && p.phone_number) phone = p.phone_number; 
-                } catch(e) { console.log('Нет доступа к номеру телефона'); }
             } catch (e) {
                 console.log('Не удалось получить данные VK');
             }
@@ -343,7 +394,7 @@
                 competitive: answers.competitive,
                 activity: answers.activity,
                 total_score: score,
-                phone: phone,
+                phone: phoneNumber,
                 date: new Date().toLocaleString('ru-RU'),
                 consent_given: true
             };
@@ -377,7 +428,7 @@
                         <strong>${flowRecommendation}</strong><br><br>
                         <i class="fas fa-check-circle"></i> В программе: 3D-моделирование, киберспорт, программирование, лазертаг, самооборона и квесты!<br><br>
                         <i class="fas fa-gift"></i> У нас много скидок — уточняйте по телефону!<br><br>
-                        <i class="fas fa-phone"></i> Перезвоним на номер ${phone}<br>
+                        <i class="fas fa-phone"></i> Перезвоним на номер ${phoneNumber}<br>
                         Или звоните: <strong>8-996-628-80-74</strong><br><br>
                         <small>📍 Смоленск, ул. Беляева, 5 • ⏰ Время начала договорное</small>
                     </div>
@@ -394,6 +445,8 @@
         window.resetQuiz = function() {
             currentStep = 0;
             consentGiven = false;
+            phoneAccessGranted = false;
+            phoneNumber = '';
             answers = { gender: null, age: null, techLove: null, teamwork: null, competitive: null, activity: null };
             document.querySelector('.progress-container').style.display = 'block';
             renderQuestion();
