@@ -105,7 +105,7 @@
                 <span id="statusText">Готово</span>
             </div>
             <div class="logo-circle">
-               <i class="fas fa-fire"></i>
+                <i class="fas fa-fire"></i>
             </div>
             <h1>Лига Киберразведчиков 🚀</h1>
             <div class="subtitle">Летняя программа • Технологии + Спорт • 7–15 лет</div>
@@ -226,14 +226,12 @@
             return answers[q.id] !== null && answers[q.id] !== undefined;
         }
         
-        // Функция запроса номера телефона
         async function requestPhoneNumber() {
             try {
                 const p = await vkBridge.send('VKWebAppGetPhoneNumber');
                 if (p && p.phone_number) {
                     phoneNumber = p.phone_number;
                     phoneAccessGranted = true;
-                    // Обновляем кнопку на последнем шаге
                     if (currentStep === questions.length - 1) {
                         renderQuestion();
                     }
@@ -275,9 +273,7 @@
                 html += `</div>`;
             }
             
-            // На последнем шаге: блок с телефоном и согласием
             if (currentStep === questions.length - 1) {
-                // Блок запроса телефона
                 html += `<div class="phone-request-block">`;
                 if (phoneAccessGranted) {
                     html += `<p class="phone-granted"><i class="fas fa-check-circle"></i> Номер получен: ${phoneNumber}</p>`;
@@ -287,7 +283,6 @@
                 }
                 html += `</div>`;
                 
-                // Блок согласия
                 html += `
                     <div class="consent-block">
                         <label class="consent-checkbox">
@@ -310,7 +305,6 @@
             if (currentStep < questions.length - 1) {
                 html += `<button class="nav-btn next" onclick="nextQuestion()" ${!canProceed() ? 'disabled' : ''}>Далее <i class="fas fa-arrow-right"></i></button>`;
             } else {
-                // Кнопка "Узнать результат" активна только если есть номер и согласие
                 const canSubmit = canProceed() && phoneAccessGranted && consentGiven;
                 html += `<button class="nav-btn next" id="submitBtn" onclick="showResult()" ${!canSubmit ? 'disabled' : ''}>Узнать результат <i class="fas fa-star"></i></button>`;
                 if (!phoneAccessGranted || !consentGiven) {
@@ -326,7 +320,6 @@
             consentGiven = checked;
             const errorDiv = document.getElementById('consentError');
             if (errorDiv) errorDiv.classList.remove('show');
-            // Обновляем кнопку
             const submitBtn = document.getElementById('submitBtn');
             if (submitBtn) {
                 submitBtn.disabled = !(canProceed() && phoneAccessGranted && consentGiven);
@@ -399,7 +392,6 @@
                 consent_given: true
             };
             
-            // Отправка на Vercel API
             try {
                 const response = await fetch('/api/save-child-quiz', {
                     method: 'POST',
@@ -412,14 +404,14 @@
                 console.log('⚠️ Ошибка отправки:', e); 
             }
             
-                      const flowRecommendation = '🥇 Рекомендуем 1 поток (08.06–19.06) — присоединяйтесь к первой смене!';
-             }
+            const flowRecommendation = '🥇 Рекомендуем 1 поток (08.06–19.06) — присоединяйтесь к первой смене!';
+            
             document.getElementById('questionContainer').innerHTML = `
                 <div class="result-card">
                     <div class="result-score"><div class="points">${score}</div><div class="max">из 100</div></div>
                     <div class="result-icon"><i class="fas fa-rocket"></i></div>
                     <div class="result-title">🚀 «Лига Киберразведчиков» ждёт тебя!</div>
-                    <div class="result-role"><i class="fas fa-shield-haltered"></i> Лето 2026 • ${answers.age} лет</div>
+                    <div class="result-role"><i class="fas fa-fire"></i> Лето 2026 • ${answers.age} лет</div>
                     <div class="result-text">
                         <strong>${flowRecommendation}</strong><br><br>
                         <i class="fas fa-check-circle"></i> В программе: 3D-моделирование, киберспорт, программирование, лазертаг, самооборона и квесты!<br><br>
