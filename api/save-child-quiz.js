@@ -1,7 +1,7 @@
 const { google } = require('googleapis');
 
 // ID твоей Google Таблицы
-const SPREADSHEET_ID = '1XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
+const SPREADSHEET_ID = '1f3kxsnxOHxAlDWgnNUbiJ9cfS7BT2yjoonYM5TgVV5k';
 
 const auth = new google.auth.GoogleAuth({
     credentials: JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY || '{}'),
