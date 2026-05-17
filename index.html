@@ -113,7 +113,7 @@
                 <p><strong>2 поток:</strong> 29.06 – 10.07</p>
                 <p><strong>3 поток:</strong> 20.07 – 31.07</p>
                 <p><strong>4 поток:</strong> 10.08 – 21.08</p>
-                <p style="margin-top:8px;"><i class="fas fa-clock"></i> 9:00–17:00 (пн–пт)</p>
+                <p style="margin-top:8px;"><i class="fas fa-clock"></i> Время начала — договоримся индивидуально</p>
                 <p><i class="fas fa-map-marker-alt"></i> Смоленск, ул. Беляева, 5</p>
                 <p><i class="fas fa-gift"></i> Много скидок! Уточняйте по телефону</p>
             </div>
@@ -140,8 +140,8 @@
     <script>
         vkBridge.send('VKWebAppInit');
         
-        // Vercel раздаёт только фронт, сервер на Render
-        const SERVER_URL = 'https://cyber-razvedchiki.onrender.com';
+        // Vercel сам обрабатывает /api/save-child-quiz
+        const SERVER_URL = '';
         
         let currentStep = 0;
         let consentGiven = false;
@@ -348,8 +348,9 @@
                 consent_given: true
             };
             
+            // Отправка на Vercel API
             try {
-                const response = await fetch(`${SERVER_URL}/save-child-quiz`, {
+                const response = await fetch('/api/save-child-quiz', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -378,7 +379,7 @@
                         <i class="fas fa-gift"></i> У нас много скидок — уточняйте по телефону!<br><br>
                         <i class="fas fa-phone"></i> Перезвоним на номер ${phone}<br>
                         Или звоните: <strong>8-996-628-80-74</strong><br><br>
-                        <small>📍 Смоленск, ул. Беляева, 5 • ⏰ 9:00–17:00</small>
+                        <small>📍 Смоленск, ул. Беляева, 5 • ⏰ Время начала договорное</small>
                     </div>
                     <div class="result-buttons">
                         <a href="https://vk.com/razvedliga" target="_blank" class="result-btn vk"><i class="fab fa-vk"></i> ВКонтакте</a>
@@ -398,19 +399,8 @@
             renderQuestion();
         };
         
-        async function wakeUpServer() {
-            try {
-                const res = await fetch(`${SERVER_URL}/`);
-                if (res.ok) document.getElementById('statusDot').classList.add('active');
-                document.getElementById('statusText').innerText = 'Сервер онлайн';
-            } catch(e) { 
-                document.getElementById('statusText').innerText = 'Сервер просыпается...'; 
-            }
-        }
-        
         window.addEventListener('load', () => { 
             renderQuestion(); 
-            wakeUpServer(); 
         });
     </script>
 </body>
