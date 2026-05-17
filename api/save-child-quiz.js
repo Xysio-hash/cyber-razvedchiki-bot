@@ -1,6 +1,5 @@
 const { google } = require('googleapis');
 
-// ID твоей Google Таблицы
 const SPREADSHEET_ID = '1f3kxsnxOHxAlDWgnNUbiJ9cfS7BT2yjoonYM5TgVV5k';
 
 const auth = new google.auth.GoogleAuth({
@@ -11,7 +10,6 @@ const auth = new google.auth.GoogleAuth({
 const sheets = google.sheets({ version: 'v4', auth });
 
 module.exports = async (req, res) => {
-    // CORS для VK Mini App
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -42,15 +40,30 @@ module.exports = async (req, res) => {
             data.consent_given ? 'Да' : ''
         ];
         
-        await sheets.spreadsheets.values.append({
-            spreadsheetId: SPREADSHEET_ID,
-            range: 'Лист1!A:L',
-            valueInputOption: 'USER_ENTERED',
-            requestBody: { values: [row] }
-        });
+        // 3 попытки с задержкой
+        let success = false;
+        for (let attempt = 1; attempt <= 3; attempt++) {
+            try {
+                await sheets.spreadsheets.values.append({
+                    spreadsheetId: SPREADSHEET_ID,
+                    range: 'Лист1!A:L',
+                    valueInputOption: 'USER_ENTERED',
+                    requestBody: { values: [row] }
+                });
+                console.log('✅ Данные записаны в Таблицу (попытка ' + attempt + ')');
+                success = true;
+                break;
+            } catch (err) {
+                console.error('❌ Попытка ' + attempt + ' не удалась:', err.message);
+                if (attempt < 3) await new Promise(r => setTimeout(r, 1000));
+            }
+        }
         
-        console.log('✅ Данные записаны в Таблицу:', row[2], row[10]);
-        res.json({ success: true, message: 'Данные сохранены' });
+        if (success) {
+            res.json({ success: true, message: 'Данные сохранены' });
+        } else {
+            res.status(500).json({ success: false, error: 'Не удалось записать данные после 3 попыток' });
+        }
         
     } catch (error) {
         console.error('❌ Ошибка:', error.message);
