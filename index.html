@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Лига Киберразведчиков | Летняя программа</title>
+    <title>Лига Киберразведчиков | Летняя программа 2026</title>
     
     <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -11,90 +11,97 @@
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
-        body { background: linear-gradient(135deg, #0d47a1 0%, #00bfa5 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .container { width: 100%; max-width: 550px; background: rgba(255,255,255,0.98); border-radius: 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; animation: slideUp 0.5s ease; }
+        body { background: linear-gradient(135deg, #0d1b3e 0%, #1a3a5c 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .container { width: 100%; max-width: 550px; background: rgba(255,255,255,0.96); border-radius: 30px; box-shadow: 0 30px 60px rgba(0,0,0,0.4); overflow: hidden; animation: slideUp 0.5s ease; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .header { background: linear-gradient(135deg, #0d47a1 0%, #00bfa5 100%); color: white; padding: 25px; text-align: center; position: relative; overflow: hidden; }
-        .header::before { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%); animation: rotate 20s linear infinite; }
+        .header { background: linear-gradient(135deg, #0d1b3e 0%, #1a3a5c 100%); color: white; padding: 30px 25px; text-align: center; position: relative; overflow: hidden; }
+        .header::before { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, transparent 60%); animation: rotate 20s linear infinite; }
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .logo-circle { width: 70px; height: 70px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; position: relative; z-index: 2; border: 3px solid rgba(255,255,255,0.5); backdrop-filter: blur(5px); overflow: hidden; }
-        .logo-circle i { font-size: 32px; color: white; }
-        .header h1 { font-size: 1.5em; margin-bottom: 4px; font-weight: 700; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
-        .header .subtitle { font-size: 0.8em; opacity: 0.95; }
-        .server-status { position: absolute; top: 12px; right: 15px; display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 20px; font-size: 0.7em; backdrop-filter: blur(5px); z-index: 10; }
+        .logo-circle { width: 80px; height: 80px; background: rgba(255,215,0,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; position: relative; z-index: 2; border: 3px solid rgba(255,215,0,0.5); backdrop-filter: blur(5px); }
+        .logo-circle i { font-size: 36px; color: #ffd700; }
+        .header h1 { font-size: 1.8em; margin-bottom: 5px; font-weight: 700; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .header .subtitle { font-size: 0.9em; opacity: 0.9; font-weight: 300; }
+        .server-status { position: absolute; top: 12px; right: 15px; display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.15); padding: 4px 10px; border-radius: 20px; font-size: 0.7em; backdrop-filter: blur(5px); z-index: 10; }
         .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #ffd700; animation: pulse 1.5s infinite; }
         .status-dot.active { background: #00e676; animation: none; }
         @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
         .content { padding: 25px; }
         .progress-container { margin-bottom: 25px; }
         .progress-bar { height: 8px; background: #e0e0e0; border-radius: 10px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(135deg, #0d47a1 0%, #00bfa5 100%); border-radius: 10px; transition: width 0.3s ease; width: 0%; }
-        .progress-text { text-align: center; margin-top: 8px; font-size: 0.85em; color: #0d47a1; font-weight: 500; }
+        .progress-fill { height: 100%; background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%); border-radius: 10px; transition: width 0.3s ease; width: 0%; }
+        .progress-text { text-align: center; margin-top: 8px; font-size: 0.85em; color: #1a3a5c; font-weight: 500; }
         .question-card { animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-        .question-title { font-size: 1.2em; font-weight: 600; color: #333; margin-bottom: 20px; text-align: center; }
-        .question-title i { color: #0d47a1; margin-right: 10px; }
+        .question-title { font-size: 1.2em; font-weight: 600; color: #0d1b3e; margin-bottom: 20px; text-align: center; }
+        .question-title i { color: #ffaa00; margin-right: 10px; }
         .age-selector { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 20px 0; }
-        .age-btn { width: 55px; height: 55px; border-radius: 50%; background: white; border: 2px solid #e0e0e0; font-size: 1.1em; font-weight: 600; color: #333; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; }
-        .age-btn:hover { border-color: #0d47a1; transform: scale(1.05); }
-        .age-btn.selected { background: linear-gradient(135deg, #0d47a1 0%, #00bfa5 100%); border-color: transparent; color: white; }
+        .age-btn { width: 50px; height: 50px; border-radius: 50%; background: white; border: 2px solid #e0e0e0; font-size: 1.1em; font-weight: 600; color: #333; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; }
+        .age-btn:hover { border-color: #ffaa00; transform: scale(1.05); }
+        .age-btn.selected { background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%); border-color: transparent; color: white; }
         .gender-group { display: flex; gap: 20px; justify-content: center; margin: 20px 0; }
         .gender-option { flex: 1; max-width: 150px; }
         .gender-option input { display: none; }
         .gender-option label { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 18px; background: white; border: 2px solid #e0e0e0; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; text-align: center; }
-        .gender-option input:checked + label { background: linear-gradient(135deg, #0d47a1 0%, #00bfa5 100%); border-color: transparent; color: white; }
+        .gender-option input:checked + label { background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%); border-color: transparent; color: white; }
         .gender-option input:checked + label i { color: white; }
-        .gender-option label i { font-size: 2.2em; color: #0d47a1; }
+        .gender-option label i { font-size: 2.2em; color: #ffaa00; }
         .gender-option label span { font-size: 0.95em; font-weight: 500; }
         .options-list { display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
         .option-btn { padding: 14px 18px; background: white; border: 2px solid #e0e0e0; border-radius: 15px; font-size: 0.95em; cursor: pointer; transition: all 0.3s ease; text-align: left; display: flex; align-items: center; gap: 12px; }
-        .option-btn:hover { border-color: #0d47a1; transform: translateX(5px); }
-        .option-btn.selected { background: linear-gradient(135deg, #0d47a1 0%, #00bfa5 100%); border-color: transparent; color: white; }
+        .option-btn:hover { border-color: #ffaa00; transform: translateX(5px); }
+        .option-btn.selected { background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%); border-color: transparent; color: white; }
         .option-btn.selected i { color: white; }
-        .option-btn i { font-size: 1.1em; color: #0d47a1; width: 24px; }
+        .option-btn i { font-size: 1.1em; color: #ffaa00; width: 24px; }
         .nav-buttons { display: flex; gap: 15px; margin-top: 25px; }
         .nav-btn { flex: 1; padding: 12px; border: none; border-radius: 15px; font-size: 0.95em; font-weight: 500; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .nav-btn.prev { background: #f0f0f0; color: #666; }
-        .nav-btn.next { background: linear-gradient(135deg, #0d47a1 0%, #00bfa5 100%); color: white; }
-        .nav-btn.next:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(13,71,161,0.3); }
+        .nav-btn.next { background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%); color: #0d1b3e; font-weight: 600; }
+        .nav-btn.next:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,170,0,0.4); }
         .nav-btn.prev:hover { background: #e0e0e0; }
         .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
         .result-card { text-align: center; animation: fadeIn 0.5s ease; }
-        .result-score { background: linear-gradient(135deg, #0d47a1 0%, #00bfa5 100%); border-radius: 50%; width: 120px; height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px auto; color: white; box-shadow: 0 10px 25px rgba(13,71,161,0.3); }
+        .result-score { background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%); border-radius: 50%; width: 120px; height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px auto; color: #0d1b3e; box-shadow: 0 10px 25px rgba(255,170,0,0.4); }
         .result-score .points { font-size: 2.5em; font-weight: 800; }
         .result-score .max { font-size: 0.9em; opacity: 0.9; }
-        .result-icon { font-size: 3.5em; color: #00e676; margin-bottom: 15px; }
-        .result-title { font-size: 1.5em; font-weight: 700; color: #333; margin-bottom: 10px; }
-        .result-role { font-size: 1.2em; color: #0d47a1; font-weight: 600; margin-bottom: 15px; background: #e3f2fd; display: inline-block; padding: 6px 20px; border-radius: 50px; }
-        .result-text { font-size: 1em; color: #666; line-height: 1.5; margin-bottom: 25px; }
+        .result-icon { font-size: 3.5em; color: #ffaa00; margin-bottom: 15px; }
+        .result-title { font-size: 1.5em; font-weight: 700; color: #0d1b3e; margin-bottom: 10px; }
+        .result-role { font-size: 1.2em; color: #1a3a5c; font-weight: 600; margin-bottom: 15px; background: #f0f4ff; display: inline-block; padding: 6px 20px; border-radius: 50px; }
+        .result-text { font-size: 1em; color: #555; line-height: 1.5; margin-bottom: 25px; }
         .result-buttons { display: flex; flex-direction: column; gap: 12px; }
         .result-btn { padding: 14px; border: none; border-radius: 15px; font-size: 0.95em; font-weight: 500; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; }
-        .result-btn.vk { background: linear-gradient(135deg, #4a76a8 0%, #42648d 100%); color: white; }
-        .result-btn.tg { background: linear-gradient(135deg, #0088cc 0%, #0077b5 100%); color: white; }
+        .result-btn.vk { background: #4a76a8; color: white; }
+        .result-btn.tg { background: #0088cc; color: white; }
         .result-btn.reset { background: #f0f0f0; color: #666; }
         .result-btn:hover { transform: translateY(-2px); }
         .message-block { background: white; border-radius: 20px; padding: 12px 15px; margin: 0 25px 15px 25px; display: none; border-left: 4px solid #ff9800; font-size: 0.9em; }
         .message-block.show { display: block; }
-        .consent-block { background: #e3f2fd; border-radius: 15px; padding: 15px; margin: 15px 0; border: 1px solid #e0e0e0; }
+        .consent-block { background: #f8f9ff; border-radius: 15px; padding: 15px; margin: 15px 0; border: 1px solid #d0d7f0; }
         .consent-checkbox { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
-        .consent-checkbox input { margin-top: 3px; width: 18px; height: 18px; accent-color: #0d47a1; cursor: pointer; }
+        .consent-checkbox input { margin-top: 3px; width: 18px; height: 18px; accent-color: #ffaa00; cursor: pointer; }
         .consent-checkbox span { font-size: 0.85em; color: #555; line-height: 1.4; }
-        .consent-checkbox a { color: #0d47a1; text-decoration: none; font-weight: 500; }
+        .consent-checkbox a { color: #ffaa00; text-decoration: none; font-weight: 500; }
         .consent-checkbox a:hover { text-decoration: underline; }
         .consent-error { color: #f44336; font-size: 0.8em; margin-top: 8px; margin-left: 30px; display: none; }
         .consent-error.show { display: block; }
-        .phone-request-block { background: #fff3e0; border-radius: 15px; padding: 15px; margin: 15px 0; text-align: center; border: 2px solid #ff9800; }
-        .phone-request-block p { font-size: 0.9em; color: #e65100; margin-bottom: 10px; }
-        .phone-request-btn { background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-size: 0.95em; font-weight: 600; cursor: pointer; }
+        .phone-request-block { background: #fff8e7; border-radius: 15px; padding: 15px; margin: 15px 0; text-align: center; border: 2px solid #ffaa00; }
+        .phone-request-block p { font-size: 0.9em; color: #b85e00; margin-bottom: 10px; }
+        .phone-request-btn { background: linear-gradient(135deg, #ffaa00 0%, #ff8800 100%); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-size: 0.95em; font-weight: 600; cursor: pointer; }
         .phone-granted { color: #4caf50; font-weight: 500; }
         .phone-granted i { margin-right: 5px; }
-        .info-block { background: #e3f2fd; border-radius: 15px; padding: 15px; margin: 15px 0; text-align: center; border: 2px dashed #0d47a1; }
-        .info-block h3 { color: #0d47a1; margin-bottom: 10px; font-size: 1em; }
-        .info-block p { font-size: 0.85em; color: #555; line-height: 1.6; margin: 5px 0; }
-        .footer { text-align: center; padding: 12px; background: #f8f9fa; color: #666; font-size: 0.75em; border-top: 1px solid #e0e0e0; }
+        .info-block { background: #f8f9ff; border-radius: 20px; padding: 20px; margin: 20px 25px; border: 1px solid #d0d7f0; }
+        .info-block h3 { color: #0d1b3e; margin-bottom: 12px; font-size: 1.1em; display: flex; align-items: center; gap: 8px; }
+        .info-block .dates { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .info-block .date-item { background: white; border-radius: 12px; padding: 10px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); font-weight: 500; }
+        .info-block .date-item span { color: #ffaa00; font-weight: 700; }
+        .info-block .features { list-style: none; margin-top: 15px; }
+        .info-block .features li { padding: 8px 0; border-bottom: 1px solid #eef0f8; display: flex; align-items: center; gap: 10px; font-size: 0.9em; color: #333; }
+        .info-block .features li i { color: #ffaa00; width: 20px; }
+        .advantages { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+        .advantage-badge { background: #eef0f8; color: #0d1b3e; padding: 6px 12px; border-radius: 20px; font-size: 0.8em; font-weight: 500; }
+        .footer { text-align: center; padding: 15px; background: #f8f9fa; color: #666; font-size: 0.75em; border-top: 1px solid #e0e0e0; }
         .loading { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.3); border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        @media (max-width: 480px) { .content { padding: 20px; } .age-btn { width: 45px; height: 45px; font-size: 0.9em; } .gender-option label { padding: 12px; } .option-btn { padding: 12px 15px; font-size: 0.85em; } .result-score { width: 100px; height: 100px; } .result-score .points { font-size: 2em; } }
+        @media (max-width: 480px) { .content { padding: 20px; } .age-btn { width: 45px; height: 45px; font-size: 0.9em; } .gender-option label { padding: 12px; } .option-btn { padding: 12px 15px; font-size: 0.85em; } .result-score { width: 100px; height: 100px; } .result-score .points { font-size: 2em; } .info-block .dates { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -107,21 +114,36 @@
             <div class="logo-circle">
                 <i class="fas fa-fire"></i>
             </div>
-            <h1>Лига Киберразведчиков 🚀</h1>
-            <div class="subtitle">Летняя программа • Технологии + Спорт • 7–15 лет</div>
+            <h1>Лига Киберразведчиков</h1>
+            <div class="subtitle">Летняя программа 2026 • 7–15 лет • Смоленск</div>
         </div>
         
-        <div style="padding: 20px 25px 0 25px;">
-            <div class="info-block">
-                <h3><i class="fas fa-calendar-alt"></i> Потоки 2026</h3>
-                <p><strong>1 поток:</strong> 08.06 – 19.06</p>
-                <p><strong>2 поток:</strong> 29.06 – 10.07</p>
-                <p><strong>3 поток:</strong> 20.07 – 31.07</p>
-                <p><strong>4 поток:</strong> 10.08 – 21.08</p>
-                <p style="margin-top:8px;"><i class="fas fa-clock"></i> Время начала — договоримся индивидуально</p>
-                <p><i class="fas fa-map-marker-alt"></i> Смоленск, ул. Беляева, 5</p>
-                <p><i class="fas fa-gift"></i> Много скидок! Уточняйте по телефону</p>
+        <!-- Информационный блок о лагере -->
+        <div class="info-block">
+            <h3><i class="fas fa-calendar-alt"></i> Даты потоков</h3>
+            <div class="dates">
+                <div class="date-item"><span>29 июня – 3 июля</span></div>
+                <div class="date-item"><span>20–24 июля</span></div>
+                <div class="date-item"><span>3–7 августа</span></div>
+                <div class="date-item"><span>17–21 августа</span></div>
             </div>
+            <h3 style="margin-top:15px;"><i class="fas fa-star"></i> Что ждёт ребят</h3>
+            <ul class="features">
+                <li><i class="fas fa-gamepad"></i> Киберспорт и 3D-моделирование</li>
+                <li><i class="fas fa-code"></i> Программирование и IT</li>
+                <li><i class="fas fa-crosshairs"></i> Лазертаг и командные квесты</li>
+                <li><i class="fas fa-shield-alt"></i> Самооборона и тактическая медицина</li>
+                <li><i class="fas fa-map-pin"></i> Мини-квесты по Смоленску</li>
+            </ul>
+            <h3 style="margin-top:15px;"><i class="fas fa-check-circle"></i> Почему выбирают нас</h3>
+            <div class="advantages">
+                <div class="advantage-badge"><i class="fas fa-user-graduate"></i> Опытные наставники</div>
+                <div class="advantage-badge"><i class="fas fa-camera"></i> Ежедневные фотоотчёты</div>
+                <div class="advantage-badge"><i class="fas fa-lock"></i> Безопасная среда</div>
+                <div class="advantage-badge"><i class="fas fa-ruble-sign"></i> Доступные цены</div>
+            </div>
+            <p style="margin-top:12px; font-size:0.85em; color:#555;"><i class="fas fa-map-marker-alt"></i> Смоленск, ул. Беляева, 5, 4 этаж</p>
+            <p style="font-size:0.85em; color:#555;"><i class="fas fa-clock"></i> Время: 9:00 – 17:00</p>
         </div>
         
         <div id="messageBlock" class="message-block">
@@ -138,7 +160,7 @@
         </div>
         
         <div class="footer">
-            <p><i class="fas fa-phone"></i> 8-996-628-80-74 &nbsp;|&nbsp; <i class="fab fa-vk"></i> vk.com/razvedliga &nbsp;|&nbsp; <i class="fab fa-telegram-plane"></i> t.me/ligacyberr &nbsp;|&nbsp; 🚀 Лето ярких эмоций!</p>
+            <p><i class="fas fa-phone"></i> 8-996-628-80-74 &nbsp;|&nbsp; <i class="fab fa-vk"></i> vk.com/razvedliga &nbsp;|&nbsp; <i class="fab fa-telegram-plane"></i> t.me/ligacyberr</p>
         </div>
     </div>
 
@@ -404,7 +426,8 @@
                 console.log('⚠️ Ошибка отправки:', e); 
             }
             
-            const flowRecommendation = '🥇 Рекомендуем 1 поток (08.06–19.06) — присоединяйтесь к первой смене!';
+            // Только один рекомендуемый поток
+            const flowRecommendation = '🥇 Рекомендуем поток 29 июня – 3 июля — присоединяйтесь к первой смене!';
             
             document.getElementById('questionContainer').innerHTML = `
                 <div class="result-card">
@@ -414,11 +437,10 @@
                     <div class="result-role"><i class="fas fa-fire"></i> Лето 2026 • ${answers.age} лет</div>
                     <div class="result-text">
                         <strong>${flowRecommendation}</strong><br><br>
-                        <i class="fas fa-check-circle"></i> В программе: 3D-моделирование, киберспорт, программирование, лазертаг, самооборона и квесты!<br><br>
-                        <i class="fas fa-gift"></i> У нас много скидок — уточняйте по телефону!<br><br>
+                        <i class="fas fa-check-circle"></i> В программе: киберспорт, 3D-моделирование, программирование, лазертаг, самооборона и квесты!<br><br>
                         <i class="fas fa-phone"></i> Перезвоним на номер ${phoneNumber}<br>
                         Или звоните: <strong>8-996-628-80-74</strong><br><br>
-                        <small>📍 Смоленск, ул. Беляева, 5 • ⏰ Время начала договорное</small>
+                        <small>📍 Смоленск, ул. Беляева, 5, 4 этаж • ⏰ 9:00–17:00</small>
                     </div>
                     <div class="result-buttons">
                         <a href="https://vk.com/razvedliga" target="_blank" class="result-btn vk"><i class="fab fa-vk"></i> ВКонтакте</a>
